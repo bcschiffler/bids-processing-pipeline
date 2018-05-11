@@ -158,8 +158,7 @@ def infotodict(seqinfo):
 
     t1w = create_key('sub-{subject}/anat/sub-{subject}_T1w')
     dwi = create_key('sub-{subject}/dwi/sub-{subject}_run-{item:01d}_dwi')
-    pressure1 = create_key('sub-{subject}/func/sub-{subject}_task-pressure_rec-{rec}_run-1_bold')
-    pressure2 = create_key('sub-{subject}/func/sub-{subject}_task-pressure_rec-{rec}_run-2_bold')
+    pressure = create_key('sub-{subject}/func/sub-{subject}_task-pressure_rec-{rec}_run-{item:01d}_bold')
 
     info = {t1w: [], dwi: [], rest: []}
 
@@ -170,14 +169,14 @@ def infotodict(seqinfo):
             info[dwi].append(s.series_id)  # append if multiple series meet criteria
         if (s.dim3 == 13650) and ('fmri_1' in s.series_description):
             if s.is_motion_corrected:  # exclude non motion corrected series
-                info[pressure1].append({'item': s.series_id, 'rec': 'corrected'})
+                info[pressure].append({'item': 1, 'rec': 'corrected'})
             else:
-                info[pressure1].append({'item': s.series_id, 'rec': 'uncorrected'})
+                info[pressure].append({'item': 1, 'rec': 'uncorrected'})
 	if (s.dim3 == 16044) and ('fmri_2' in s.series_description):
 	    if s.is_motion_corrected:  # exclude non motion corrected series
-                info[pressure2].append({'item': s.series_id, 'rec': 'corrected'})
+                info[pressure].append({'item': 2, 'rec': 'corrected'})
             else:
-                info[pressure2].append({'item': s.series_id, 'rec': 'uncorrected'})
+                info[pressure].append({'item': 2, 'rec': 'uncorrected'})
     return info
 
 ```
